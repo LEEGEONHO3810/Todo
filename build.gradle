@@ -22,9 +22,17 @@ configurations {
 repositories {
     mavenCentral()
 }
-
+// 버전간의 호환성이나 너무 오래된것 , 너무 최신 서로 맞나 확인해보자.....
 dependencies {
+    implementation 'com.google.protobuf:protobuf-java:3.21.7'
+    implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.15'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
@@ -41,3 +49,15 @@ generateJava {
     generateClient = true
 }
 
+
+sourceSets {
+    main {
+        resources {
+            srcDirs 'src/main/resources'
+        }
+    }
+}
+
+processResources {
+    duplicatesStrategy = 'exclude' // 중복 핸들링 전략 설정
+}

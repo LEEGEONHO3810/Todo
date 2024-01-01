@@ -4,23 +4,23 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import Lists from "./components/Lists";
 import Form from "./components/Form";
+import axios from 'axios';
+
 function App() {
   const [message, setMessage]=useState([]);
 
     const [todoData , setTodoData] = useState([]);
     const [value , setValue] = useState("");
 
-//db연결
-  useEffect(()=>{
-    fetch("/api/test")
-        .then((response)=>{
-          return response.json();
-        })
-        .then((data)=>{
-            console.log("!23232323")
-        });
-  },[]);
+    // //db연결
+    useEffect(() => {
+        axios.get('/api/List')
+            .then(response =>
+                console.log(response.data)
 
+            )
+            .catch(error => console.log(error))
+    }, []);
 
     const handleSubmit = (e) =>{
         e.preventDefault();
