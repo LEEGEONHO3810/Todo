@@ -1,33 +1,65 @@
 /* eslint-disable */
 
 import React, {useState} from 'react';
+import axios from "axios";
 
 const List = ({
                   id,
                   title,
+                  Date,
                   completed,
                   todoData,
                   setTodoData,
                   provided,
-                  snapshot}
-              ) => {
+                  snapshot
 
-         const [editClick , setEditClick] = useState(false);
-        const [updateText , setUpdateText] = useState(title);
+            }) => {
 
-    const handleChangeTodo = (id) => {
+    const [editClick , setEditClick] = useState(false);
+    const [updateText , setUpdateText] = useState(title);
+
+    const handleChangeTodo = (e) => {
+
         let newTodoData = todoData.map((data) => {
 
             if(data.id === id){
+                const updatedData = { ...data, completed: e.target.checked };
 
                 completed = !data.completed;
+                const newTodo = {
+                    id: id,
+                    date: Date,
+                    completed: e.target.checked,
+                    source: 'Check'
+                };
+
+                axios.post("api/Update", newTodo
+                ).then(function (response) {
+                    setTodoData(newTodoData);
+                    console.log("Check 성공");
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                return updatedData;
             }
             return data
         });
-        setTodoData(newTodoData);
     };
 
-    const handleClick = (id) => {
+    const handleClick = (id,Date) => {
+
+        axios.post("api/Delete", {
+            id:id,
+            date:Date
+            }
+        ).then(function (response) {
+            setTodoData(newTodoData);
+            setEditClick(false);
+            console.log("삭제 성공");
+        }).catch(function (error) {
+            console.log(error);
+        });
+
         let newTodoData = todoData.filter((data) => data.id !== id);
         setTodoData(newTodoData);
     };
@@ -40,12 +72,29 @@ const List = ({
 
         let newTodoData = todoData.map(data =>{
             if(data.id === id){
+
                 data.title = updateText;
+
+                const newTodo = {
+                    id: id,
+                    date: Date,
+                    title: updateText,
+                    completed : data.completed,
+                    source: 'Update'
+
+                };
+
+                axios.post("api/Update", newTodo
+                ).then(function (response) {
+                    setTodoData(newTodoData);
+                    setEditClick(false);
+                    console.log("성공");
+                }).catch(function (error) {
+                    console.log(error);
+                });
             }
             return data;
         })
-        setTodoData(newTodoData);
-        setEditClick(false);
     }
 
     // 수정 클릭 시
@@ -102,10 +151,10 @@ const List = ({
                         <span className={completed ? 'line-through ' : undefined}>{title}</span>
                     </div>
                     <div className="items-center ">
-                        <button className="px-4 py-2 float-right" onClick={handleClick}>
+                        <button className="px-4 py-2 float-right" onClick={()=>handleClick(id,Date)}>
                             x
                         </button>
-                        <button className="px-4 py-2 float-right" onClick={()=>setEditClick(true)}>
+                        <button className="px-4 py-2 float-right" onClick={()=> setEditClick(true)}>
                             수정
                         </button>
                     </div>

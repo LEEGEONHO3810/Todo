@@ -4,8 +4,34 @@
 
 <mapper namespace="com.example.projectTodo.mapper.Todo.TodoListMapper">
     <select id="List" resultType="HashMap" >
-        select * from tbl_todo_data;
+        select coalesce(clm_id, '1') clm_id
+             , coalesce(clm_date, '') clm_date
+             , clm_text , clm_yn
+             , CAST((SELECT MAX(clm_id + 1) FROM tbl_todo_data) AS CHAR) AS max_id
+        from tbl_todo_data
+        order by CAST(clm_id AS UNSIGNED);
     </select>
 
+    <insert id="Add" parameterType="HashMap">
+        INSERT INTO tbl_todo_data (clm_id, clm_date, clm_text, clm_yn) values (#{strId} , #{date} , #{title} , #{strCompleted})
+    </insert>
+
+    <insert id="Update" parameterType="HashMap">
+
+        UPDATE tbl_todo_data SET clm_text = #{title}
+        where clm_id = #{strId} and clm_date = #{date}
+
+    </insert>
+    <update id="Check" parameterType="HashMap">
+
+        UPDATE tbl_todo_data SET clm_yn = #{strCompleted}
+        where clm_id = #{strId} and clm_date = #{date}
+
+    </update>
+
+    <delete  id="Delete" parameterType="HashMap">
+        DELETE from tbl_todo_data
+        where clm_id = #{strId} and clm_date = #{date}
+    </delete>
 
 </mapper>

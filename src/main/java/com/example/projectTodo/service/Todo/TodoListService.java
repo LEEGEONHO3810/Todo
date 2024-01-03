@@ -18,4 +18,19 @@ public class TodoListService {
         return TodoListMapper.List();
     }
 
+    public void Add(HashMap<String, String> map) throws Exception{
+        TodoListMapper.Add(map);
+    }
+
+    public void Update(HashMap<String, String> map) throws Exception{
+        TodoListMapper.Update(map);
+    }
+
+    public void Check(HashMap<String, String> map) throws Exception{
+        TodoListMapper.Check(map);
+    }
+
+    public void Delete(HashMap<String, String> map) throws Exception{
+        TodoListMapper.Delete(map);
+    }
 }

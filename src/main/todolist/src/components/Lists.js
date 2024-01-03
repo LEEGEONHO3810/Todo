@@ -1,4 +1,3 @@
-import React, {useMemo} from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import List from "./List";
 
@@ -21,7 +20,7 @@ function Lists({todoData , setTodoData}) {
         setTodoData(newTodoData);
     };
 
-    return useMemo(()=>(
+    return (
         <div>
             <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId="todo">
@@ -35,6 +34,7 @@ function Lists({todoData , setTodoData}) {
                                     {(provided, snapshot)=>(
                                         <List id={data.id}
                                               title={data.title}
+                                              Date={data.Date}
                                               completed={data.completed}
                                               todoData={todoData}
                                               setTodoData={setTodoData}
@@ -50,7 +50,7 @@ function Lists({todoData , setTodoData}) {
                 </Droppable>
             </DragDropContext>
         </div>
-    ),[todoData, setTodoData]);
+    );
 }
 
 export default Lists;
