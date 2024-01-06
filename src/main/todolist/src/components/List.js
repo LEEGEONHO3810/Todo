@@ -2,6 +2,7 @@
 
 import React, {useState} from 'react';
 import axios from "axios";
+import moment from "moment/moment";
 
 const List = ({
                   id,
@@ -11,7 +12,8 @@ const List = ({
                   todoData,
                   setTodoData,
                   provided,
-                  snapshot
+                  snapshot,
+                  calenderValue
 
             }) => {
 
@@ -47,10 +49,10 @@ const List = ({
     };
 
     const handleClick = (id,Date) => {
-
+        const formattedDate  = moment(calenderValue).format("YYYY-MM-DD");
         axios.post("api/Delete", {
             id:id,
-            date:Date
+            date:formattedDate
             }
         ).then(function (response) {
             setTodoData(newTodoData);
@@ -67,7 +69,8 @@ const List = ({
         setUpdateText(e.target.value);
     };
     const handleSubmit = (e) =>{
-
+        // 변경된 날짜
+        const formattedDate  = moment(calenderValue).format("YYYY-MM-DD");
         e.preventDefault();
 
         let newTodoData = todoData.map(data =>{
@@ -77,7 +80,7 @@ const List = ({
 
                 const newTodo = {
                     id: id,
-                    date: Date,
+                    date: formattedDate,
                     title: updateText,
                     completed : data.completed,
                     source: 'Update'

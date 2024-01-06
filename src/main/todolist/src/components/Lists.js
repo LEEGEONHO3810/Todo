@@ -1,7 +1,7 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import List from "./List";
 
-function Lists({todoData , setTodoData}) {
+function Lists({todoData , setTodoData , calenderValue , setCalOnChange}) {
 
     const handleDragEnd = (result) => {
         if(!result.destination){
@@ -40,6 +40,8 @@ function Lists({todoData , setTodoData}) {
                                               setTodoData={setTodoData}
                                               provided={provided}
                                               snapshot={snapshot}
+                                              calenderValue = {calenderValue}
+                                              setCalOnChange = {setCalOnChange}
                                         />
                                     )}
                                 </Draggable>

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface TodoListMapper {
-    List<HashMap<String, String>> List() throws Exception;
+    List<HashMap<String, String>> List(String date) throws Exception;
 
     void Add(HashMap<String, String> map) throws Exception;
 

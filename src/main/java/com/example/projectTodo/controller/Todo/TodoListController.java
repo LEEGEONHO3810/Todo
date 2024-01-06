@@ -3,10 +3,7 @@ package com.example.projectTodo.controller.Todo;
 import com.example.projectTodo.dto.Todo.TodoDTO;
 import com.example.projectTodo.service.Todo.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +14,8 @@ public class TodoListController {
     @Autowired
     TodoListService TodoListService;
     @GetMapping("/api/List")
-        public List<HashMap<String, String>> List() throws Exception {
-        return TodoListService.List();
+        public List<HashMap<String, String>> List(@RequestParam("date") String date) throws Exception {
+        return TodoListService.List(date);
     }
     @PostMapping("/api/Add")
         public void Add(@RequestBody HashMap<String, Object> todo) throws Exception{
@@ -32,8 +29,11 @@ public class TodoListController {
         String strCompleted = "";
 
         if (completed){
+
             strCompleted = "1";
+
         }else if(!completed){
+
             strCompleted = "0";
         }
 
@@ -41,7 +41,6 @@ public class TodoListController {
         map.put("date",date);
         map.put("title",title);
         map.put("strCompleted",strCompleted);
-
         TodoListService.Add(map);
 
     }

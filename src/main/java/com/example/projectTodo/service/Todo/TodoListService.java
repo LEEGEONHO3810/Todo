@@ -14,8 +14,8 @@ public class TodoListService {
 
     @Autowired
     TodoListMapper TodoListMapper;
-    public List<HashMap<String, String>> List() throws Exception{
-        return TodoListMapper.List();
+    public List<HashMap<String, String>> List(String date) throws Exception{
+        return TodoListMapper.List(date);
     }
 
     public void Add(HashMap<String, String> map) throws Exception{

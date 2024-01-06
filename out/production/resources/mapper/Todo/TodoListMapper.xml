@@ -7,8 +7,9 @@
         select coalesce(clm_id, '1') clm_id
              , coalesce(clm_date, '') clm_date
              , clm_text , clm_yn
-             , CAST((SELECT MAX(clm_id + 1) FROM tbl_todo_data) AS CHAR) AS max_id
+             , CAST((SELECT cast(count(clm_id) as UNSIGNED)+1 FROM tbl_todo_data where clm_date = #{date}) AS CHAR) AS max_id
         from tbl_todo_data
+        where clm_date = #{date}
         order by CAST(clm_id AS UNSIGNED);
     </select>
 
