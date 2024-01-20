@@ -17,6 +17,13 @@ public class TodoListController {
         public List<HashMap<String, String>> List(@RequestParam("date") String date) throws Exception {
         return TodoListService.List(date);
     }
+
+    @GetMapping("/api/DotList")
+    public List<HashMap<String, String>> DotList(@RequestParam("date") String date) throws Exception {
+
+        return TodoListService.DotList(date);
+    }
+
     @PostMapping("/api/Add")
         public void Add(@RequestBody HashMap<String, Object> todo) throws Exception{
         HashMap<String, String> map = new HashMap<String, String>();

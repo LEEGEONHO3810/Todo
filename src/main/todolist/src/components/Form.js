@@ -1,13 +1,9 @@
 /* eslint-disable*/
-
-import React, {useState} from 'react';
-
 export default function Form({value,setValue ,handleSubmit }) {
 
     const handleChange = (e) =>{
         setValue(e.target.value);
     }
-
     return (
         <div>
             <form className="flex pt-2">

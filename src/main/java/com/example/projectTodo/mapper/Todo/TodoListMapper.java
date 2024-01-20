@@ -16,5 +16,7 @@ public interface TodoListMapper {
     void Check(HashMap<String, String> map) throws Exception;
 
     void Delete(HashMap<String, String> map) throws Exception;
+
+    List<HashMap<String, String>> DotList(String date) throws Exception;
 }
 

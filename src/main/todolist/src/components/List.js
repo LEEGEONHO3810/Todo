@@ -92,6 +92,7 @@ const List = ({
                     setTodoData(newTodoData);
                     setEditClick(false);
                     console.log("성공");
+
                 }).catch(function (error) {
                     console.log(error);
                 });

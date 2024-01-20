@@ -17,6 +17,9 @@ public class TodoListService {
     public List<HashMap<String, String>> List(String date) throws Exception{
         return TodoListMapper.List(date);
     }
+    public List<HashMap<String, String>> DotList(String date) throws Exception{
+        return TodoListMapper.DotList(date);
+    }
 
     public void Add(HashMap<String, String> map) throws Exception{
         TodoListMapper.Add(map);
@@ -33,4 +36,6 @@ public class TodoListService {
     public void Delete(HashMap<String, String> map) throws Exception{
         TodoListMapper.Delete(map);
     }
+
+
 }

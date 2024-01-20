@@ -13,6 +13,13 @@
         order by CAST(clm_id AS UNSIGNED);
     </select>
 
+    <select id="DotList" resultType="HashMap" >
+        select coalesce(clm_date, '') clm_date
+        from tbl_todo_data
+        WHERE DATE_FORMAT(clm_date, '%Y-%m') = #{date}
+        order by CAST(clm_id AS UNSIGNED);
+    </select>
+
     <insert id="Add" parameterType="HashMap">
         INSERT INTO tbl_todo_data (clm_id, clm_date, clm_text, clm_yn) values (#{strId} , #{date} , #{title} , #{strCompleted})
     </insert>
