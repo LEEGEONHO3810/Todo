@@ -155,10 +155,10 @@ const List = ({
                         <span className={completed ? 'line-through ' : undefined}>{title}</span>
                     </div>
                     <div className="items-center ">
-                        <button className="px-4 py-2 float-right" onClick={()=>handleClick(id,Date)}>
+                        <button className="px-4 py-2 float-right" onClick={() => handleClick(id, Date)}>
                             x
                         </button>
-                        <button className="px-4 py-2 float-right" onClick={()=> setEditClick(true)}>
+                        <button className="px-4 py-2 float-right" onClick={() => setEditClick(true)}>
                             수정
                         </button>
                     </div>

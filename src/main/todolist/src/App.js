@@ -5,10 +5,13 @@ import './App.css';
 import './style.css';
 import Lists from "./components/Lists";
 import Form from "./components/Form";
+import UserLogin from "./components/UserLogin";
 import axios from 'axios';
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'; // css import //  토욜?? 왜빨겅색 토욜은 빠라낵 지우기
 import moment from 'moment';
+
+
 
 function NextIcon() {
     return ">";
@@ -62,26 +65,30 @@ function App() {
 
         // 클릭한 날짜를 format함
         const formattedDate  = moment(calenderValue).format("YYYY-MM-DD");
+        console.log(value);
         e.preventDefault();
+        if(value === ''){
+            alert("할 일을 입력해주세요");
+        }else{
+            // 새로운 todo 객체 생성
+            const newTodo = {
+                id: todoId || 1,
+                Date: formattedDate,
+                title: value,
+                completed: false
+            };
+            // prev -> 이전 배열을 가져와서 복사를 한다음 newTodo 를 맨뒤에 넣고 setTodoData 여기에 집어넣음
+            setTodoData(prev => [...prev, newTodo]);
+            setValue("");
+            setTodoId(todoId + 1);
 
-        // 새로운 todo 객체 생성
-        const newTodo = {
-            id: todoId || 1,
-            Date: formattedDate,
-            title: value,
-            completed: false
-        };
-        // prev -> 이전 배열을 가져와서 복사를 한다음 newTodo 를 맨뒤에 넣고 setTodoData 여기에 집어넣음
-        setTodoData(prev => [...prev, newTodo]);
-        setValue("");
-        setTodoId(todoId + 1);
+            axios.post("api/Add", newTodo
+            ).then(function (response) {
 
-        axios.post("api/Add", newTodo
-        ).then(function (response) {
-
-        }).catch(function (error) {
-            console.log(error);
-        });
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 
     // 달력 onChange 함수
@@ -109,7 +116,7 @@ function App() {
                     title: item.clm_text,
                     completed: item.clm_yn === "1"
                 }));
-                if(response.data.length == 0){
+                if(response.data.length === 0){
                     setTodoId(1);
                 }else{
                     setTodoId(Number(response.data[0].max_id));
@@ -144,52 +151,60 @@ function App() {
     };
 
 
+    return (
+        <div className="main-container">
+            <div className="md:w-4/4 p-4 bg-white m-4 shadow-lg rounded">
+                <div className="text-xl font-bold text-gray-800 mb-4 text-center"  >To Do List</div>
 
-  return (
-      <div>
-          <div className="flex items-center justify-center w-screen h-screen bg-blue-100" >
-              <div>
-                  <Calendar locale="ko"
-                            onChange={calOnChange}
-                            value={calenderValue}
-                            next2Label={null}
-                            nextLabel={<NextIcon />}
-                            prevLabel={<PrevIcon />}
-                            prev2Label={null}
-                            onActiveStartDateChange={({ action, activeStartDate, value, view }) =>loadDotData(moment(activeStartDate).format("YYYY-MM")) }
-                            tileContent={({ date, view }) => {
-                                const formattedDate = moment(date).format("YYYY-MM-DD");
+                <UserLogin/>
+            </div>
+            <div className="flex items-center justify-center max-w-full h-auto bg-blue-100">
+                <div>
+                    <Calendar locale="ko"
+                              onChange={calOnChange}
+                              value={calenderValue}
+                              next2Label={null}
+                              nextLabel={<NextIcon/>}
+                              prevLabel={<PrevIcon/>}
+                              prev2Label={null}
+                              onActiveStartDateChange={({
+                                                            action,
+                                                            activeStartDate,
+                                                            value,
+                                                            view
+                                                        }) => loadDotData(moment(activeStartDate).format("YYYY-MM"))}
+                              tileContent={({date, view}) => {
+                                  const formattedDate = moment(date).format("YYYY-MM-DD");
 
-                                if (mark.find((item) => item.Date === formattedDate)) {
-                                    return (
-                                        <>
-                                            <div className="flex justify-center items-center absoluteDiv">
-                                                <div className="dot"></div>
-                                            </div>
-                                        </>
-                                    );
-                                }
-                            }}
-                  />
-                  <div className="text-gray-500 mt-4">
-                          {moment(calenderValue).format("YYYY년 MM월 DD일")}
-                  </div>
-              </div>
-
-              <div className="w-full p-6 m-4 bg-white rounded shadow lg:w-3/4 lg:max-w-lg">
-                  <div className="flex justify-between mb-3">
-                      <h1>할 일 목록</h1>
-                  </div>
-                  <Lists todoData={todoData}
-                         setTodoData={setTodoData}
-                         calenderValue={calenderValue}
-                         setCalOnChange={setCalOnChange}
+                                  if (mark.find((item) => item.Date === formattedDate)) {
+                                      return (
+                                          <>
+                                              <div className="flex justify-center items-center absoluteDiv">
+                                                  <div className="dot"></div>
+                                              </div>
+                                          </>
+                                      );
+                                  }
+                              }}
                     />
-                  <Form value = {value}  setValue = {setValue}  handleSubmit={handleSubmit} />
-              </div>
-          </div>
-      </div>
-  );
+                    <div className="text-gray-500 mt-4">
+                        {moment(calenderValue).format("YYYY년 MM월 DD일")}
+                    </div>
+                </div>
+                <div className="w-full p-6 m-4 bg-white rounded shadow lg:w-3/4 lg:max-w-lg">
+                    <div className="flex justify-between mb-3">
+                        <h1>할 일 목록</h1>
+                    </div>
+                    <Lists todoData={todoData}
+                           setTodoData={setTodoData}
+                           calenderValue={calenderValue}
+                           setCalOnChange={setCalOnChange}
+                    />
+                    <Form value={value} setValue={setValue} handleSubmit={handleSubmit}/>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
