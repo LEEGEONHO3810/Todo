@@ -27,9 +27,9 @@ public class TodoListController {
     @PostMapping("/api/Add")
         public void Add(@RequestBody HashMap<String, Object> todo) throws Exception{
         HashMap<String, String> map = new HashMap<String, String>();
-
-        Integer id = (Integer) todo.get("id");
         String date = (String) todo.get("Date");
+
+        String id = TodoListService.MaxId(date);
         String title = (String) todo.get("title");
         Boolean completed = (Boolean) todo.get("completed");
 

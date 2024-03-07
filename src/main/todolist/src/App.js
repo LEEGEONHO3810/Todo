@@ -26,7 +26,6 @@ function App() {
 
     const [todoData , setTodoData] = useState([]);
     const [value , setValue] = useState("");
-    const [todoId, setTodoId] = useState(1); // id count
     const [calenderValue, setCalOnChange] = useState(new Date()); // 달력
     const [mark, setMark] = useState([]);
 
@@ -43,15 +42,11 @@ function App() {
                 });
                 const loadedTodos = response.data.map(item =>  ({
                     id: Number(item.clm_id),
+                    seq: Number(item.clm_seq),
                     Date: item.clm_date,
                     title: item.clm_text,
-                    completed: item.clm_yn === "1"
+                    completed: item.clm_yn === "1" // 완료여부
                 }));
-                if(response.data.length == 0){
-                    setTodoId(1);
-                }else{
-                    setTodoId(Number(response.data[0].max_id));
-                }
                 setTodoData(loadedTodos);
             } catch (error) {
                 console.log(error);
@@ -65,26 +60,27 @@ function App() {
 
         // 클릭한 날짜를 format함
         const formattedDate  = moment(calenderValue).format("YYYY-MM-DD");
-        console.log(value);
         e.preventDefault();
         if(value === ''){
             alert("할 일을 입력해주세요");
         }else{
+            const maxSeq = todoData.reduce((max, todo) => Math.max(max, todo.seq), 0);
+
             // 새로운 todo 객체 생성
             const newTodo = {
-                id: todoId || 1,
+                id: Number(maxSeq)+1,
                 Date: formattedDate,
                 title: value,
                 completed: false
             };
+
             // prev -> 이전 배열을 가져와서 복사를 한다음 newTodo 를 맨뒤에 넣고 setTodoData 여기에 집어넣음
             setTodoData(prev => [...prev, newTodo]);
             setValue("");
-            setTodoId(todoId + 1);
 
             axios.post("api/Add", newTodo
             ).then(function (response) {
-
+                location.reload();
             }).catch(function (error) {
                 console.log(error);
             });
@@ -112,15 +108,11 @@ function App() {
                 // API 응답을 처리
                 const loadedTodos = response.data.map(item => ({
                     id: Number(item.clm_id),
+                    seq: Number(item.clm_seq),
                     Date: item.clm_date,
                     title: item.clm_text,
                     completed: item.clm_yn === "1"
                 }));
-                if(response.data.length === 0){
-                    setTodoId(1);
-                }else{
-                    setTodoId(Number(response.data[0].max_id));
-                }
                 setTodoData(loadedTodos);
             } catch (error) {
                 console.error(error);

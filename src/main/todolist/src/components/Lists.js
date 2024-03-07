@@ -19,8 +19,6 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
         newTodoData.splice(result.destination.index, 0, reorderedItem);
         setTodoData(newTodoData);
     };
-
-
     return (
         <div>
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -34,6 +32,7 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
                                            index={index}>
                                     {(provided, snapshot) => (
                                         <List id={data.id}
+                                              seq={data.seq}
                                               title={data.title}
                                               Date={data.Date}
                                               completed={data.completed}

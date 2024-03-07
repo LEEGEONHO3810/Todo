@@ -7,6 +7,7 @@
         select coalesce(clm_id, '1') clm_id
              , coalesce(clm_date, '') clm_date
              , clm_text , clm_yn
+             , coalesce(clm_seq, '1') clm_seq
              , CAST((SELECT cast(count(clm_id) as UNSIGNED)+1 FROM tbl_todo_data where clm_date = #{date}) AS CHAR) AS max_id
         from tbl_todo_data
         where clm_date = #{date}
@@ -20,8 +21,14 @@
         order by CAST(clm_id AS UNSIGNED);
     </select>
 
+    <select id="MaxId" resultType="String" parameterType="String" >
+        select cast(COALESCE(max(cast(x.clm_id AS UNSIGNED)),0)+1 as CHAR) clm_id
+        from tbl_todo_data x
+        where x.clm_date = #{date};
+    </select>
+
     <insert id="Add" parameterType="HashMap">
-        INSERT INTO tbl_todo_data (clm_id, clm_date, clm_text, clm_yn) values (#{strId} , #{date} , #{title} , #{strCompleted})
+        INSERT INTO tbl_todo_data (clm_id, clm_date, clm_text, clm_yn , clm_seq) values (#{strId} , #{date} , #{title} , #{strCompleted} , #{strId})
     </insert>
 
     <insert id="Update" parameterType="HashMap">

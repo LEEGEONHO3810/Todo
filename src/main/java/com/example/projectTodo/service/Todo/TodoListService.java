@@ -36,6 +36,7 @@ public class TodoListService {
     public void Delete(HashMap<String, String> map) throws Exception{
         TodoListMapper.Delete(map);
     }
-
-
+    public String MaxId(String date) throws Exception{
+        return TodoListMapper.MaxId(date);
+    }
 }
