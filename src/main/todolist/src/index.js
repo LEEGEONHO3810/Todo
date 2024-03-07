@@ -1,14 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // 변경된 임포트 경로
-import { BrowserRouter as Router } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
+import UserLogin from './components/UserLogin';
 
-// React 18에서의 새로운 루트 생성 방식
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container); // createRoot로 컨테이너를 root로 생성
+
 root.render(
-    <React.StrictMode>
-        <Router>
-            <App />
-        </Router>
-    </React.StrictMode>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/UserLogin" element={<UserLogin />} />
+        </Routes>
+    </BrowserRouter>
 );
