@@ -7,6 +7,7 @@ import moment from "moment/moment";
 const List = ({
                   id,
                   seq,
+                  index,
                   title,
                   Date,
                   completed,
@@ -52,8 +53,8 @@ const List = ({
     const handleClick = (id,Date) => {
         const formattedDate  = moment(calenderValue).format("YYYY-MM-DD");
         axios.post("api/Delete", {
-            id:id,
-            date:formattedDate
+                id:id,
+                date:formattedDate
             }
         ).then(function (response) {
             setTodoData(newTodoData);
@@ -153,7 +154,7 @@ const List = ({
                             onChange={handleChangeTodo}
                             checked={completed} // 컴포넌트 내에서 상태를 사용할 때 checked 속성 사용
                         />&nbsp;&nbsp;
-                        <span>{seq}. </span>
+                        <span>{index}. </span>
                         <span className={completed ? 'line-through ' : undefined}>{title}</span>
                     </div>
                     <div className="items-center ">

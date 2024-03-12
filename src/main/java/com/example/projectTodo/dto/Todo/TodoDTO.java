@@ -1,38 +1,32 @@
 package com.example.projectTodo.dto.Todo;
 
+import lombok.Getter;
+
 public class TodoDTO {
+    @Getter
     private Integer id;
+    private Integer seq;
+    @Getter
     private String date;
+    @Getter
     private String title;
+    @Getter
     private Boolean completed;
 
-    public Integer getId() {
-        return id;
+    public TodoDTO(Integer seq) {
+        this.seq = seq;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
-    }
-
     public void setDate(String date) {
         this.date = date;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public void setTitle(String title) {
         this.title = title;
-    }
-
-
-    public Boolean getCompleted() {
-        return completed;
     }
 
     public void setCompleted(Boolean completed) {

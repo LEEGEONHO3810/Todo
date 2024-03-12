@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class TodoListController {
@@ -99,5 +100,14 @@ public class TodoListController {
         TodoListService.Delete(map);
 
     }
+
+    @PostMapping("/api/seqUpdate")
+    public void seqUpdate(@RequestBody Map<String, Object> seqNumber) throws Exception{
+        System.out.println(seqNumber.get("sourceIndex") + "시작위치");
+        System.out.println(seqNumber.get("destinationIndex") + "드랍위치");
+
+    }
+
+
 
 }
