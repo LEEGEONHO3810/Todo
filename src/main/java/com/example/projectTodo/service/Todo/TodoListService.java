@@ -21,6 +21,10 @@ public class TodoListService {
         return TodoListMapper.DotList(date);
     }
 
+    public String  dropSeqSelect(HashMap<String, String> map) throws Exception{
+        return TodoListMapper.dropSeqSelect(map);
+    }
+
     public void Add(HashMap<String, String> map) throws Exception{
         TodoListMapper.Add(map);
     }
@@ -39,4 +43,13 @@ public class TodoListService {
     public String MaxId(String date) throws Exception{
         return TodoListMapper.MaxId(date);
     }
+
+    public void seqUpdate(HashMap<String, String> map) throws Exception{
+        // 드랍된곳 seq를 변경
+        TodoListMapper.seqDropUpdate(map);
+        // 시작위치 seq를 변경
+        TodoListMapper.seqDragUpdate(map);
+
+    }
+
 }

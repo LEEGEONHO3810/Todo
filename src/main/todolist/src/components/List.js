@@ -52,9 +52,12 @@ const List = ({
 
     const handleClick = (id,Date) => {
         const formattedDate  = moment(calenderValue).format("YYYY-MM-DD");
+
         axios.post("api/Delete", {
+
                 id:id,
                 date:formattedDate
+
             }
         ).then(function (response) {
             setTodoData(newTodoData);

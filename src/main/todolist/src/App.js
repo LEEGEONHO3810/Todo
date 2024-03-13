@@ -53,7 +53,6 @@ function App() {
             }
         };
         loadData();
-
     }, []);
 
     const handleSubmit = (e) => {

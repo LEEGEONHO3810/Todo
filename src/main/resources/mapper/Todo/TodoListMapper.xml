@@ -11,20 +11,26 @@
              , CAST((SELECT cast(count(clm_id) as UNSIGNED)+1 FROM tbl_todo_data where clm_date = #{date}) AS CHAR) AS max_id
         from tbl_todo_data
         where clm_date = #{date}
-        order by CAST(clm_id AS UNSIGNED);
+        order by CAST(clm_seq AS UNSIGNED);
     </select>
 
     <select id="DotList" resultType="HashMap" >
         select coalesce(clm_date, '') clm_date
         from tbl_todo_data
         WHERE DATE_FORMAT(clm_date, '%Y-%m') = #{date}
-        order by CAST(clm_id AS UNSIGNED);
+        order by CAST(clm_seq AS UNSIGNED);
     </select>
 
     <select id="MaxId" resultType="String" parameterType="String" >
         select cast(COALESCE(max(cast(x.clm_id AS UNSIGNED)),0)+1 as CHAR) clm_id
         from tbl_todo_data x
         where x.clm_date = #{date};
+    </select>
+
+    <select id="dropSeqSelect" resultType="String" parameterType="HashMap" >
+        select clm_id
+        from tbl_todo_data
+        where clm_date = #{dragDate} and clm_seq = #{destinationIndex}
     </select>
 
     <insert id="Add" parameterType="HashMap">
@@ -41,6 +47,20 @@
 
         UPDATE tbl_todo_data SET clm_yn = #{strCompleted}
         where clm_id = #{strId} and clm_date = #{date}
+
+    </update>
+
+    <update id="seqDropUpdate" parameterType="HashMap">
+
+        UPDATE tbl_todo_data SET clm_seq = #{sourceIndex}
+        where clm_id = #{dropSeq} and clm_seq = #{destinationIndex} and clm_date = #{dragDate}
+
+    </update>
+
+    <update id="seqDragUpdate" parameterType="HashMap">
+
+        UPDATE tbl_todo_data SET clm_seq = #{destinationIndex}
+        where clm_id = #{id} and clm_seq = #{sourceIndex}  and clm_date = #{dragDate}
 
     </update>
 

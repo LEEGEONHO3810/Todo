@@ -102,12 +102,17 @@ public class TodoListController {
     }
 
     @PostMapping("/api/seqUpdate")
-    public void seqUpdate(@RequestBody Map<String, Object> seqNumber) throws Exception{
-        System.out.println(seqNumber.get("sourceIndex") + "시작위치");
-        System.out.println(seqNumber.get("destinationIndex") + "드랍위치");
+    public void seqUpdate(@RequestBody HashMap<String, String> req) throws Exception{
+
+        String dropSeq = TodoListService.dropSeqSelect(req);
+
+        req.put("dropSeq" , dropSeq);
+
+        System.out.println("dropSeq : "  + dropSeq);
+        System.out.println(req.get("sourceIndex") + "시작위치");
+        System.out.println(req.get("destinationIndex") + "드랍위치");
+
+        TodoListService.seqUpdate(req);
 
     }
-
-
-
 }

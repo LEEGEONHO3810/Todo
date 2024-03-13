@@ -1,7 +1,8 @@
 package com.example.projectTodo.dto.Todo;
+import lombok.NoArgsConstructor;
 
 import lombok.Getter;
-
+@NoArgsConstructor
 public class TodoDTO {
     @Getter
     private Integer id;

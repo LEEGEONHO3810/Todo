@@ -1,6 +1,7 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import List from "./List";
 import axios from "axios";
+import moment from "moment/moment";
 
 function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
     const handleDragEnd = (result) => {
@@ -9,7 +10,7 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
             return;
         }
         const newTodoData = todoData;
-
+        const dragDate = moment(calenderValue).format("YYYY-MM-DD");
         // 1. 변경시키는  아이템을 배열에서 지워준다.
         // 2. return 값으로 지워진 아이템을 변경..
 
@@ -18,15 +19,18 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
         // 원하는 자리에 reorderItem을 insert해줌
         newTodoData.splice(result.destination.index, 0, reorderedItem);
         setTodoData(newTodoData);
-
-        // seq로 order by 예정
+        // // seq로 order by 예정
         // console.log(result.source.index);           // 시작 위치 (기본 seq값)
-        // console.log(result.destination.index);      // 드래그 놓는 위치 (변경 seq값)
+        // console.log(result.destination.index+1);      // 드래그 놓는 위치 (변경 seq값)
 
         // seq 업데이트
         axios.post("api/seqUpdate", {
-            sourceIndex: result.source.index,
-            destinationIndex: result.destination.index
+
+            id:result.draggableId,
+            dragDate:dragDate,
+            sourceIndex: result.source.index+1,
+            destinationIndex: result.destination.index+1
+
         }).then(function (response) {
             console.log("Check 성공");
         }).catch(function (error) {
@@ -44,7 +48,8 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
                             {todoData.map((data, index) => (
                                 <Draggable key={data.id}
                                            draggableId={data.id.toString()}
-                                           index={index}>
+                                           index={index}
+                                >
                                     {(provided, snapshot) => (
                                         <List id={data.id}
                                               seq={data.seq}

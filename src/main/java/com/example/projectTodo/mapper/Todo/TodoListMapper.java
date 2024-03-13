@@ -20,5 +20,11 @@ public interface TodoListMapper {
     List<HashMap<String, String>> DotList(String date) throws Exception;
 
     String MaxId(String date) throws Exception;
+
+    void seqDropUpdate(HashMap<String, String> map) throws Exception;
+
+    void seqDragUpdate(HashMap<String, String> map) throws Exception;
+
+    String dropSeqSelect(HashMap<String, String> map) throws Exception;
 }
 
