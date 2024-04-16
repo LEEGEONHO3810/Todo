@@ -151,7 +151,7 @@ const List = ({
                         snapshot.isDragging ? 'bg-gray-400' : 'bg-gray-100'
                     } flex items-center justify-between w-full px-4 py-1 my-2 text-gray-600 border rounded`}
                 >
-                    <div className="items-center">
+                    <div className="items-center  w-3/4">
                         <input
                             type="checkbox"
                             onChange={handleChangeTodo}
@@ -160,7 +160,7 @@ const List = ({
                         <span>{index}. </span>
                         <span className={completed ? 'line-through ' : undefined}>{title}</span>
                     </div>
-                    <div className="items-center ">
+                    <div className="items-center">
                         <button className="px-4 py-2 float-right" onClick={() => handleClick(id, Date)}>
                             x
                         </button>

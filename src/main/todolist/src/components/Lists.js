@@ -7,9 +7,7 @@ import { useState } from "react";
 
 function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
     const [visibleCount, setVisibleCount] = useState(5);
-    const handleLoadMore = () => {
-        setVisibleCount(prevCount => prevCount + 5);
-    };
+
 
     const handleDragEnd = (result) => {
         console.log(result);
@@ -43,6 +41,10 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
         }).catch(function (error) {
             // console.log(error);
         });
+    };
+    const handleLoadMore = () => {
+
+        setVisibleCount(prevCount => Math.min(prevCount + 5, todoData.length));
 
     };
     return (
@@ -52,7 +54,7 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
                     {(provided) => (
                         <div {...provided.droppableProps}
                              ref={provided.innerRef}>
-                            {todoData.splice(0,visibleCount).map((data, index) => (
+                            {todoData.slice(0,visibleCount).map((data, index) => (
                                 <Draggable key={data.id}
                                            draggableId={data.id.toString()}
                                            index={index}
@@ -80,7 +82,8 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
                 </Droppable>
             </DragDropContext>
             {visibleCount < todoData.length && (
-            <button onClick={handleLoadMore}>더보기</button>
+                <button onClick={handleLoadMore}>더보기</button>
+            )}
         </div>
     );
 }
