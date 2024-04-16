@@ -2,8 +2,15 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import List from "./List";
 import axios from "axios";
 import moment from "moment/moment";
+import { useState } from "react";
+
 
 function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
+    const [visibleCount, setVisibleCount] = useState(5);
+    const handleLoadMore = () => {
+        setVisibleCount(prevCount => prevCount + 5);
+    };
+
     const handleDragEnd = (result) => {
         console.log(result);
         if (!result.destination) {
@@ -45,7 +52,7 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
                     {(provided) => (
                         <div {...provided.droppableProps}
                              ref={provided.innerRef}>
-                            {todoData.map((data, index) => (
+                            {todoData.splice(0,visibleCount).map((data, index) => (
                                 <Draggable key={data.id}
                                            draggableId={data.id.toString()}
                                            index={index}
@@ -72,6 +79,8 @@ function Lists({todoData, setTodoData, calenderValue, setCalOnChange}) {
                     )}
                 </Droppable>
             </DragDropContext>
+            {visibleCount < todoData.length && (
+            <button onClick={handleLoadMore}>더보기</button>
         </div>
     );
 }
